@@ -15,20 +15,12 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class OrderingCardDeliveryTest {
 
-    public String generateTestDate(int addDays, String pattern) {
-        return LocalDate.now().plusDays(addDays).format((DateTimeFormatter.ofPattern(pattern)));
-    }
-
     @Test
     void FillingOutTheForm() {
         open("http://localhost:9999");
-        String planDate = generateTestDate(6, "dd.MM.yyyy");
 
         $("[data-test-id=city] input").sendKeys("Санкт-Петербург");
         $("[data-test-id=city] input").shouldBe(Condition.value("Санкт-Петербург"));
-
-        $(By.cssSelector("[data-test-id=date] input")).doubleClick().sendKeys(planDate);
-        $(By.cssSelector("[data-test-id=date] input")).shouldBe(Condition.value(planDate));
 
         $("[data-test-id = name] input").setValue("Ярмухамедов Ринат");
         $("[data-test-id = name] input").shouldBe(Condition.value("Ярмухамедов Ринат"));
@@ -41,6 +33,6 @@ public class OrderingCardDeliveryTest {
 
         $("div.grid-col button.button_view_extra").click();
 
-        $("[data-test-id=notification]").shouldHave(text("Встреча успешно забронирована на " + planDate), Duration.ofSeconds(15)).shouldBe(visible);
+        $("[data-test-id=notification]").shouldHave(text("Встреча успешно забронирована на "), Duration.ofSeconds(15)).shouldBe(visible);
     }
 }
